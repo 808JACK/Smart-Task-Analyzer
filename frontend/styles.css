@@ -444,3 +444,87 @@ footer {
         padding: 20px;
     }
 }
+
+
+/* Dependency Graph Visualization */
+.dependency-graph-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.graph-description {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+}
+
+.dependency-graph {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    min-height: 200px;
+}
+
+.graph-node {
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    padding: 15px;
+    min-width: 150px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.graph-node:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.graph-node.circular {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
+.graph-node-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.graph-node-id {
+    font-size: 0.85em;
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.graph-node-deps {
+    font-size: 0.85em;
+    color: #666;
+}
+
+.graph-node-deps strong {
+    color: #333;
+}
+
+.circular-badge {
+    background: #dc3545;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+.no-dependencies {
+    text-align: center;
+    color: #999;
+    padding: 40px;
+    font-size: 1.1em;
+}

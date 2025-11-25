@@ -219,6 +219,9 @@ function displayResults(analyzeData, suggestData) {
         sortedTasksContainer.appendChild(card);
     });
     
+    // Display dependency graph if there are dependencies
+    displayDependencyGraph(analyzeData.tasks);
+    
     // Scroll to results
     outputSection.scrollIntoView({ behavior: 'smooth' });
 }
@@ -356,4 +359,54 @@ function showSuccess(message) {
     document.querySelector('.input-section').insertBefore(successDiv, document.querySelector('.input-section').firstChild);
     
     setTimeout(() => successDiv.remove(), 3000);
+}
+
+
+// Display Dependency Graph
+function displayDependencyGraph(tasks) {
+    const graphContainer = document.getElementById('dependencyGraphContainer');
+    const graphDiv = document.getElementById('dependencyGraph');
+    
+    // Check if any tasks have dependencies
+    const hasDependencies = tasks.some(task => 
+        task.dependencies && task.dependencies.length > 0
+    );
+    
+    if (!hasDependencies) {
+        graphContainer.style.display = 'none';
+        return;
+    }
+    
+    graphContainer.style.display = 'block';
+    graphDiv.innerHTML = '';
+    
+    // Create nodes for each task
+    tasks.forEach(task => {
+        const node = document.createElement('div');
+        node.className = 'graph-node';
+        
+        if (task.has_circular_dependency) {
+            node.classList.add('circular');
+        }
+        
+        const taskId = task.id || task.title.substring(0, 10);
+        const deps = task.dependencies || [];
+        
+        node.innerHTML = `
+            <div class="graph-node-title">${task.title}</div>
+            <div class="graph-node-id">ID: ${taskId}</div>
+            <div class="graph-node-deps">
+                ${deps.length > 0 
+                    ? `<strong>Depends on:</strong> ${deps.join(', ')}`
+                    : '<strong>No dependencies</strong>'
+                }
+            </div>
+            ${task.has_circular_dependency 
+                ? '<span class="circular-badge">⚠️ Circular Dependency</span>' 
+                : ''
+            }
+        `;
+        
+        graphDiv.appendChild(node);
+    });
 }

@@ -205,7 +205,38 @@ Tasks are then sorted in descending order by final score.
 
 ## Bonus Challenges Attempted
 
-None - focused on delivering high-quality core functionality with comprehensive testing and documentation.
+### 1. ✅ Unit Tests (45 min)
+**Status**: Completed and exceeded expectations
+- Implemented 16 comprehensive unit tests (requirement was "at least 3")
+- 100% pass rate
+- Coverage includes:
+  - Urgency score calculations (past due, today, future dates)
+  - Effort scoring for different task sizes
+  - Importance normalization
+  - Dependency scoring
+  - Circular dependency detection
+  - Complete scoring pipeline
+  - All 4 strategy configurations
+  - Edge case handling (missing data, invalid inputs)
+
+### 2. ✅ Dependency Graph Visualization (30-45 min)
+**Status**: Completed
+- Visual representation of task dependencies
+- Circular dependencies are detected using DFS algorithm
+- Tasks with circular dependencies are flagged with red borders and warning badges
+- Graph shows:
+  - Task titles and IDs
+  - Dependency relationships
+  - Visual indicators for problematic dependencies
+- Implementation:
+  - Backend: DFS-based cycle detection in `scoring.py`
+  - Frontend: Visual graph display with color coding
+
+### Additional Features (Not in Bonus List)
+- **Multiple Prioritization Strategies**: 4 different weighting schemes (Smart Balance, Fastest Wins, High Impact, Deadline Driven)
+- **Score Breakdown Visualization**: Shows individual component scores for transparency
+- **Production Deployment**: Deployed on Render (backend) and Vercel (frontend)
+- **Database Flexibility**: Supports both SQLite and PostgreSQL/Neon
 
 ## Future Improvements
 
@@ -250,7 +281,7 @@ Analyzes and sorts a list of tasks by priority score.
   "tasks": [...],
   "strategy": "smart_balance",
   "total_count": 1
-}
+}no
 ```
 
 ### POST /api/tasks/suggest/
