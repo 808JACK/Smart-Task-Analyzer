@@ -41,9 +41,29 @@ class TaskScorer:
         }
         return strategies.get(self.strategy, strategies['smart_balance'])
     
+    def is_weekend(self, check_date: date) -> bool:
+        """Check if date falls on weekend (Saturday=5, Sunday=6)"""
+        return check_date.weekday() >= 5
+    
+    def count_business_days(self, start_date: date, end_date: date) -> int:
+        """Count business days between two dates (excluding weekends)"""
+        if start_date > end_date:
+            return 0
+        
+        business_days = 0
+        current = start_date
+        
+        while current <= end_date:
+            if not self.is_weekend(current):
+                business_days += 1
+            current += timedelta(days=1)
+        
+        return business_days
+    
     def calculate_urgency_score(self, due_date_str: str) -> float:
         """
-        Calculate urgency based on due date.
+        Calculate urgency based on due date with date intelligence.
+        Considers weekends when calculating urgency.
         Returns 0-100 score where higher = more urgent.
         """
         try:
@@ -53,30 +73,40 @@ class TaskScorer:
                 due_date = due_date_str
             
             today = date.today()
-            days_until_due = (due_date - today).days
+            calendar_days = (due_date - today).days
+            
+            # Calculate business days (excluding weekends)
+            business_days = self.count_business_days(today, due_date)
+            
+            # If due on weekend, reduce urgency slightly
+            weekend_penalty = 0
+            if self.is_weekend(due_date):
+                weekend_penalty = 5
             
             # Past due: maximum urgency with penalty
-            if days_until_due < 0:
-                return 100 + min(abs(days_until_due) * 5, 100)
+            if calendar_days < 0:
+                return 100 + min(abs(calendar_days) * 5, 100)
             
             # Due today or tomorrow: very high urgency
-            if days_until_due <= 1:
-                return 95
+            if calendar_days <= 1:
+                return 95 - weekend_penalty
             
-            # Due within a week: high urgency
-            if days_until_due <= 7:
-                return 85 - (days_until_due * 2)
+            # Due within a week: high urgency (use business days)
+            if calendar_days <= 7:
+                if business_days <= 3:  # 3 or fewer business days
+                    return 90 - weekend_penalty
+                return 85 - (business_days * 2) - weekend_penalty
             
             # Due within 2 weeks: moderate urgency
-            if days_until_due <= 14:
-                return 70 - (days_until_due - 7) * 3
+            if calendar_days <= 14:
+                return 70 - (business_days - 5) * 2 - weekend_penalty
             
             # Due within a month: declining urgency
-            if days_until_due <= 30:
-                return max(50 - (days_until_due - 14) * 2, 20)
+            if calendar_days <= 30:
+                return max(50 - (business_days - 10) * 1.5, 20) - weekend_penalty
             
             # Far future: low urgency
-            return max(20 - (days_until_due - 30) * 0.5, 5)
+            return max(20 - (calendar_days - 30) * 0.5, 5)
             
         except (ValueError, TypeError):
             return 50  # Default if date is invalid

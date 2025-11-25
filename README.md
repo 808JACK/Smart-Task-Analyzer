@@ -232,6 +232,20 @@ Tasks are then sorted in descending order by final score.
   - Backend: DFS-based cycle detection in `scoring.py`
   - Frontend: Visual graph display with color coding
 
+### 3. ✅ Date Intelligence (30 min)
+**Status**: Completed
+- Considers weekends when calculating urgency scores
+- Business days calculation (excludes weekends)
+- Weekend penalty applied to tasks due on Saturday/Sunday
+- Visual indicators:
+  - 📅 Weekend badge shown for tasks due on weekends
+  - "Weekend adjusted" note in urgency score breakdown
+- Implementation:
+  - `is_weekend()` function checks if date falls on weekend
+  - `count_business_days()` calculates working days between dates
+  - Urgency calculation adjusted based on business days vs calendar days
+  - Tasks due on weekends receive slightly lower urgency scores
+
 ### Additional Features (Not in Bonus List)
 - **Multiple Prioritization Strategies**: 4 different weighting schemes (Smart Balance, Fastest Wins, High Impact, Deadline Driven)
 - **Score Breakdown Visualization**: Shows individual component scores for transparency

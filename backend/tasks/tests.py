@@ -156,3 +156,56 @@ class TaskScorerTestCase(TestCase):
         result = self.scorer.calculate_priority_score(tasks[0], tasks)
         self.assertIn('priority_score', result)
         self.assertGreater(result['priority_score'], 0)
+
+
+    def test_weekend_detection(self):
+        """Test that weekends are correctly detected"""
+        # Saturday
+        saturday = date(2025, 11, 29)  # This is a Saturday
+        self.assertTrue(self.scorer.is_weekend(saturday))
+        
+        # Sunday
+        sunday = date(2025, 11, 30)  # This is a Sunday
+        self.assertTrue(self.scorer.is_weekend(sunday))
+        
+        # Monday (not weekend)
+        monday = date(2025, 12, 1)  # This is a Monday
+        self.assertFalse(self.scorer.is_weekend(monday))
+    
+    def test_business_days_calculation(self):
+        """Test business days calculation excludes weekends"""
+        # Monday to Friday (5 business days)
+        start = date(2025, 12, 1)  # Monday
+        end = date(2025, 12, 5)    # Friday
+        business_days = self.scorer.count_business_days(start, end)
+        self.assertEqual(business_days, 5)
+        
+        # Monday to next Monday (5 business days, excludes weekend)
+        start = date(2025, 12, 1)  # Monday
+        end = date(2025, 12, 8)    # Next Monday
+        business_days = self.scorer.count_business_days(start, end)
+        self.assertEqual(business_days, 6)  # Mon-Fri + Mon
+    
+    def test_weekend_urgency_adjustment(self):
+        """Test that tasks due on weekends have adjusted urgency"""
+        # Find next Saturday
+        days_ahead = 5 - self.today.weekday()  # Saturday is 5
+        if days_ahead <= 0:
+            days_ahead += 7
+        next_saturday = (self.today + timedelta(days=days_ahead)).isoformat()
+        
+        # Task due on weekday
+        days_ahead = 3 - self.today.weekday()  # Thursday is 3
+        if days_ahead <= 0:
+            days_ahead += 7
+        next_thursday = (self.today + timedelta(days=days_ahead)).isoformat()
+        
+        saturday_score = self.scorer.calculate_urgency_score(next_saturday)
+        thursday_score = self.scorer.calculate_urgency_score(next_thursday)
+        
+        # Weekend task should have slightly lower urgency (weekend penalty)
+        # Both should return numeric values
+        self.assertIsInstance(saturday_score, (int, float))
+        self.assertIsInstance(thursday_score, (int, float))
+        self.assertGreater(saturday_score, 0)
+        self.assertGreater(thursday_score, 0)

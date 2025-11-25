@@ -244,7 +244,7 @@ function createSuggestionCard(suggestion) {
         <div class="task-details">
             <div class="detail-item">
                 <div class="detail-label">Due Date</div>
-                <div class="detail-value">${task.due_date}</div>
+                <div class="detail-value">${task.due_date} ${isWeekend(task.due_date) ? '<span class="weekend-badge">📅</span>' : ''}</div>
             </div>
             <div class="detail-item">
                 <div class="detail-label">Estimated Hours</div>
@@ -260,7 +260,7 @@ function createSuggestionCard(suggestion) {
             </div>
         </div>
         <div class="score-breakdown">
-            <div class="score-item">Urgency: <strong>${breakdown.urgency}</strong></div>
+            <div class="score-item">Urgency: <strong>${breakdown.urgency}</strong> ${isWeekend(task.due_date) ? '(Weekend adjusted)' : ''}</div>
             <div class="score-item">Importance: <strong>${breakdown.importance}</strong></div>
             <div class="score-item">Effort: <strong>${breakdown.effort}</strong></div>
             <div class="score-item">Dependencies: <strong>${breakdown.dependencies}</strong></div>
@@ -294,7 +294,7 @@ function createTaskCard(task, rank) {
         <div class="task-details">
             <div class="detail-item">
                 <div class="detail-label">Due Date</div>
-                <div class="detail-value">${task.due_date}</div>
+                <div class="detail-value">${task.due_date} ${isWeekend(task.due_date) ? '<span class="weekend-badge">📅</span>' : ''}</div>
             </div>
             <div class="detail-item">
                 <div class="detail-label">Estimated Hours</div>
@@ -310,7 +310,7 @@ function createTaskCard(task, rank) {
             </div>
         </div>
         <div class="score-breakdown">
-            <div class="score-item">Urgency: <strong>${breakdown.urgency}</strong></div>
+            <div class="score-item">Urgency: <strong>${breakdown.urgency}</strong> ${isWeekend(task.due_date) ? '(Weekend adjusted)' : ''}</div>
             <div class="score-item">Importance: <strong>${breakdown.importance}</strong></div>
             <div class="score-item">Effort: <strong>${breakdown.effort}</strong></div>
             <div class="score-item">Dependencies: <strong>${breakdown.dependencies}</strong></div>
@@ -321,6 +321,12 @@ function createTaskCard(task, rank) {
 }
 
 // Helper Functions
+function isWeekend(dateStr) {
+    const date = new Date(dateStr);
+    const day = date.getDay();
+    return day === 0 || day === 6; // Sunday = 0, Saturday = 6
+}
+
 function getPriorityClass(score) {
     if (score >= 70) return 'high';
     if (score >= 50) return 'medium';
