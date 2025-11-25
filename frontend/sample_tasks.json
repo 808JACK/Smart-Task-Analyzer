@@ -1,10 +1,10 @@
 [
   {
     "id": "task1",
-    "title": "Fix critical login bug",
-    "due_date": "2025-11-26",
+    "title": "Fix critical login bug (URGENT - Past Due)",
+    "due_date": "2025-11-25",
     "estimated_hours": 2,
-    "importance": 9,
+    "importance": 10,
     "dependencies": []
   },
   {
@@ -41,7 +41,7 @@
   },
   {
     "id": "task6",
-    "title": "Quick CSS fix for mobile",
+    "title": "Quick CSS fix for mobile (Quick Win)",
     "due_date": "2025-11-27",
     "estimated_hours": 1,
     "importance": 6,
@@ -57,10 +57,42 @@
   },
   {
     "id": "task8",
-    "title": "Security audit",
-    "due_date": "2025-11-25",
+    "title": "Security audit (High Priority)",
+    "due_date": "2025-11-26",
     "estimated_hours": 10,
     "importance": 10,
     "dependencies": []
+  },
+  {
+    "id": "task9",
+    "title": "Weekend Task - Code Review (Due Saturday)",
+    "due_date": "2025-11-29",
+    "estimated_hours": 3,
+    "importance": 7,
+    "dependencies": []
+  },
+  {
+    "id": "task10",
+    "title": "Weekend Task - Deploy to Staging (Due Sunday)",
+    "due_date": "2025-11-30",
+    "estimated_hours": 2,
+    "importance": 8,
+    "dependencies": ["task1", "task4"]
+  },
+  {
+    "id": "task11",
+    "title": "Circular Dependency Test A",
+    "due_date": "2025-12-05",
+    "estimated_hours": 5,
+    "importance": 6,
+    "dependencies": ["task12"]
+  },
+  {
+    "id": "task12",
+    "title": "Circular Dependency Test B",
+    "due_date": "2025-12-05",
+    "estimated_hours": 5,
+    "importance": 6,
+    "dependencies": ["task11"]
   }
 ]
