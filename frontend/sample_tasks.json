@@ -1,0 +1,66 @@
+[
+  {
+    "id": "task1",
+    "title": "Fix critical login bug",
+    "due_date": "2025-11-26",
+    "estimated_hours": 2,
+    "importance": 9,
+    "dependencies": []
+  },
+  {
+    "id": "task2",
+    "title": "Update user documentation",
+    "due_date": "2025-12-02",
+    "estimated_hours": 4,
+    "importance": 6,
+    "dependencies": ["task1"]
+  },
+  {
+    "id": "task3",
+    "title": "Refactor authentication module",
+    "due_date": "2025-12-15",
+    "estimated_hours": 16,
+    "importance": 7,
+    "dependencies": ["task1"]
+  },
+  {
+    "id": "task4",
+    "title": "Write unit tests for API",
+    "due_date": "2025-11-28",
+    "estimated_hours": 6,
+    "importance": 8,
+    "dependencies": []
+  },
+  {
+    "id": "task5",
+    "title": "Design new dashboard UI",
+    "due_date": "2025-12-10",
+    "estimated_hours": 12,
+    "importance": 5,
+    "dependencies": []
+  },
+  {
+    "id": "task6",
+    "title": "Quick CSS fix for mobile",
+    "due_date": "2025-11-27",
+    "estimated_hours": 1,
+    "importance": 6,
+    "dependencies": []
+  },
+  {
+    "id": "task7",
+    "title": "Database optimization",
+    "due_date": "2025-12-20",
+    "estimated_hours": 8,
+    "importance": 9,
+    "dependencies": ["task3"]
+  },
+  {
+    "id": "task8",
+    "title": "Security audit",
+    "due_date": "2025-11-25",
+    "estimated_hours": 10,
+    "importance": 10,
+    "dependencies": []
+  }
+]
